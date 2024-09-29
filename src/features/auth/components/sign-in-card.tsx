@@ -20,34 +20,32 @@ type SignInCardProps = {
 };
 
 export const SignInCard = ({ setState }: SignInCardProps) => {
-    const { signIn } = useAuthActions();
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
-    const [error, setError] = useState("");
-    const [pending, setPending] = useState(false);
+  const { signIn } = useAuthActions();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+  const [pending, setPending] = useState(false);
 
+  const onPasswordSignIn = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
 
-    const onPasswordSignIn = (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
+    setPending(true);
 
-        setPending(true);
+    signIn("password", { email, password, flow: "signIn" })
+      .catch(() => {
+        setError("Invalid email or password");
+      })
+      .finally(() => {
+        setPending(false);
+      });
+  };
 
-        signIn("password", { email, password, flow: "signIn" })
-        .catch(() => {
-            setError("Invalid email or password");
-        })
-        .finally(() => {
-            setPending(false);
-        });
-    }
-
-    const onProviderSignIn = (value: "github" | "google") => {
-        setPending(true);
-        signIn(value)
-        .finally(() => {
-            setPending(false);
-        })
-    }
+  const onProviderSignIn = (value: "github" | "google") => {
+    setPending(true);
+    signIn(value).finally(() => {
+      setPending(false);
+    });
+  };
 
   return (
     <Card className="w-full h-full p-8">
@@ -59,10 +57,8 @@ export const SignInCard = ({ setState }: SignInCardProps) => {
       </CardHeader>
       {!!error && (
         <div className="bg-destructive/15 p-3 rounded-md flex items-center gap-x-2 text-sm text-destructive mb-6">
-            <TriangleAlert
-                className="size-4"
-            />
-            <p>{error}</p>
+          <TriangleAlert className="size-4" />
+          <p>{error}</p>
         </div>
       )}
       <CardContent className="space-y-5 px-0 pb-0">
@@ -70,7 +66,9 @@ export const SignInCard = ({ setState }: SignInCardProps) => {
           <Input
             disabled={pending}
             value={email}
-            onChange={(e) => {setEmail(e.target.value)}}
+            onChange={(e) => {
+              setEmail(e.target.value);
+            }}
             placeholder="Email"
             type="email"
             required
@@ -78,7 +76,9 @@ export const SignInCard = ({ setState }: SignInCardProps) => {
           <Input
             disabled={pending}
             value={password}
-            onChange={(e) => {setPassword(e.target.value)}}
+            onChange={(e) => {
+              setPassword(e.target.value);
+            }}
             placeholder="Password"
             type="password"
             required
@@ -112,7 +112,12 @@ export const SignInCard = ({ setState }: SignInCardProps) => {
         </div>
         <p className="text-xs text-muted-foreground">
           Don&apos;t have an account?{" "}
-          <span onClick={() => {setState("signUp")}} className="text-sky-700 hover:underline cursor-pointer">
+          <span
+            onClick={() => {
+              setState("signUp");
+            }}
+            className="text-sky-700 hover:underline cursor-pointer"
+          >
             Sign up
           </span>
         </p>
