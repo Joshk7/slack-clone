@@ -13,8 +13,10 @@ import {
 } from "@/components/ui/dropdown-menu";
 
 import { useCurrentUser } from "../api/use-current-user";
+import { useRouter } from "next/navigation";
 
 export const UserButton = () => {
+  const router = useRouter();
   const { signOut } = useAuthActions();
   const { data, isLoading } = useCurrentUser();
   if (isLoading) {
@@ -36,7 +38,7 @@ export const UserButton = () => {
           <AvatarImage alt={name} src={image} />
           <AvatarFallback className="bg-sky-500 text-white">
             {avatarFallback}
-            </AvatarFallback>
+          </AvatarFallback>
         </Avatar>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="center" side="right" className="w-60">

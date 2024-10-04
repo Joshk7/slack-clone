@@ -18,7 +18,7 @@ import { useCreateWorkspaceModal } from "../store/use-create-workspace-modal";
 import { useCreateWorkspace } from "../api/use-create-workspace";
 
 export const CreateWorkspaceModal = () => {
-    const router = useRouter();
+  const router = useRouter();
   const [open, setOpen] = useCreateWorkspaceModal();
   const [name, setName] = useState("");
 
@@ -32,14 +32,16 @@ export const CreateWorkspaceModal = () => {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    mutate({ name, }, {
+    mutate(
+      { name },
+      {
         onSuccess: (id) => {
-            toast.success("Workspace created");
-            router.push(`/workspaces/${id}`);
-            handleClose();
-        }
-    }
-    )
+          toast.success("Workspace created");
+          router.push(`/workspace/${id}`);
+          handleClose();
+        },
+      }
+    );
   };
 
   return (
@@ -50,7 +52,9 @@ export const CreateWorkspaceModal = () => {
         </DialogHeader>
         <form onSubmit={handleSubmit} className="space-y-4">
           <Input
-            onChange={(e) => {setName(e.target.value)}}
+            onChange={(e) => {
+              setName(e.target.value);
+            }}
             disabled={isPending}
             required
             autoFocus
