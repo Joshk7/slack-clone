@@ -38,7 +38,7 @@ export default function RootLayout({
             <Toaster />
             <Modals />
             {children}
-            </ConvexClientProvider>
+          </ConvexClientProvider>
         </body>
       </html>
     </ConvexAuthNextjsServerProvider>

@@ -14,12 +14,14 @@ import { Separator } from "@radix-ui/react-separator";
 import { SignInFlow } from "../types";
 import { useState } from "react";
 import { TriangleAlert } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 type SignInCardProps = {
   setState: (state: SignInFlow) => void;
 };
 
 export const SignInCard = ({ setState }: SignInCardProps) => {
+  const router = useRouter();
   const { signIn } = useAuthActions();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -36,7 +38,8 @@ export const SignInCard = ({ setState }: SignInCardProps) => {
         setError("Invalid email or password");
       })
       .finally(() => {
-        setPending(false);
+          setPending(false);
+          router.refresh();
       });
   };
 

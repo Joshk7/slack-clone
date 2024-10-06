@@ -14,12 +14,14 @@ import { SignInFlow } from "../types";
 import { useState } from "react";
 import { TriangleAlert } from "lucide-react";
 import { useAuthActions } from "@convex-dev/auth/react";
+import { useRouter } from "next/navigation";
 
 type SignUpCardProps = {
   setState: (state: SignInFlow) => void;
 };
 
 export const SignUpCard = ({ setState }: SignUpCardProps) => {
+  const router = useRouter();
   const { signIn } = useAuthActions();
 
   const [name, setName] = useState("");
@@ -43,6 +45,7 @@ export const SignUpCard = ({ setState }: SignUpCardProps) => {
       })
       .finally(() => {
         setPending(false);
+        router.refresh();
       });
   };
 
